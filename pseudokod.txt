@@ -1,0 +1,23 @@
+Mitt spel i pseudokod (ish)
+
+START: Visa huvudsidan med en bild på en skog och 1 knapp (spela) (Behövs det ngt mer ??)
+
+HANDLE BUTTON(S): Olika texter, knappval och och bakgrundsbild ska presenteras, användarens val styr sedan vad som presenteras
+
+CHANGE SCENE: Beroende på spelarens val (knapptryck) ska en viss scen hämtas (med eller utan entiteter/object). 
+
+DISPLAY SCEN: Beroende på spelarens val ska en viss scen visas med tillhörande bild och text 
+
+INCREMENT: Spelare ska kunna plocka upp ett objekt
+
+DECREMENT: Spelare ska kunna välja att byta eller använda ett objekt
+
+CHECK BACKPACK: Spelare behöver kunna kolla om de har objekt i ryggsäcken
+
+CHECK HEALTH: ?? vet inte riktigt ??
+
+CHECK MAP: ?? vet inte riktigt ??
+
+CHECK IF FINAL DESTINATION = TRUE: Om ja är spelet över, om inte fortsätt att spela
+
+EXIT GAME: Spelaren ska kunna avsluta spelet när som 

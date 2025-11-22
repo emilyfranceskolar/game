@@ -1,0 +1,61 @@
+:root {
+    --textFont: "Science Gothic", sans-serif;
+    --textColor: #000;
+    --backgroundColor: #0b0e11;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-image: url(images/start.jpg);
+    background-size: cover;
+    font-family: var(--textFont);
+    color: var(--textColor);
+}
+
+header {
+    background-color: var(--backgroundColor);
+    color: orange;
+    border-bottom: 1px solid orange;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.content-wrapper {
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+.initialText {
+    background-color: #fff;
+    font-size: small;
+    padding: 1rem;
+    border: 12px;
+}
+
+.btn-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+}
+
+#startBtn {
+    padding: 1rem;
+    border: 0;
+    border-radius: 16px;
+    color: white;
+    background-color: red;
+    box-shadow: none;
+}
+
+#startBtn:hover {
+    padding: 1rem;
+    border-radius: 16px;
+    color: white;
+    box-shadow: none;
+    background-color: darkred;
+}
