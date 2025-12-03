@@ -1,14 +1,14 @@
 //objekt för att skapa och lagra spelets innehåll
 let content = {
-  // currentScene: "scene1",
+  currentScene: "scene1",
   scene1: {
     title: "The Wolf",
-    text: `You step into the forrest, immediately meet a giant wolf. You don't see <br /> 
-   any weapons nearby, and you need to make decision quickly. What do you do?`,
+    text: `You step into the forrest, immediately meet a giant wolf.<br /> 
+      You don't see any weapons nearby. What do you do?`,
     image: "./images/wolf.jpg",
     options: [
       {
-        text: "Scream loudly and run",
+        text: "Run for your life",
       },
       {
         text: "Wait for the wolf to make a move",
@@ -39,18 +39,19 @@ function main() {
   startBtnHtml.addEventListener("click", startGame);
 }
 
-function showInstructions() {}
+function showInstructions() {
+  clearContent();
+}
 
 function startGame() {
   clearContent();
+  renderNewContent();
 }
 
 function clearContent() {
   //radera allt innehåll genom att radera containern
   const containertHtml = document.querySelector(".container");
   containertHtml.remove();
-
-  renderNewContent();
 }
 
 function renderNewContent() {
@@ -66,7 +67,7 @@ function renderNewContent() {
   newImageHtml.id = "bg-image";
 
   //anger platsen för src, lägg till i container
-  newImageHtml.src = content.scene1.image;
+  newImageHtml.src = content[content.currentScene].image;
   newContainerHtml.append(newImageHtml);
 
   const contentHtml = document.createElement("div");
@@ -76,22 +77,22 @@ function renderNewContent() {
   const titleHtml = document.createElement("h2");
   titleHtml.className = "page-title";
 
-  titleHtml.innerHTML = content.scene1.title;
+  titleHtml.innerHTML = content[content.currentScene].title;
   contentHtml.append(titleHtml);
 
   const paragraphHtml = document.createElement("p");
   paragraphHtml.className = "page-text";
-  paragraphHtml.innerHTML = content.scene1.text;
+  paragraphHtml.innerHTML = content[content.currentScene].text;
   contentHtml.append(paragraphHtml);
 
   const btnGridHtml = document.createElement("div");
   btnGridHtml.className = "btn-grid";
 
   let btnHtml;
-  for (let i = 0; i < content.scene1.options.length; i++) {
+  for (let i = 0; i < content[content.currentScene].options.length; i++) {
     btnHtml = document.createElement("button");
-    btnHtml.className = "btn";
-    btnHtml.innerHTML = content.scene1.options[i].text;
+    btnHtml.className = "btn" + i;
+    btnHtml.innerHTML = content[content.currentScene].options[i].text;
     btnGridHtml.append(btnHtml);
   }
   contentHtml.append(btnGridHtml);

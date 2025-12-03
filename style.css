@@ -31,16 +31,16 @@
     align-items: center;
     gap: 2rem;
     background-color: transparent;
-    border: 1px solid var(--lightTextColor);
-    padding: 2rem;
+    border: 1px solid var(--themeColor);
+    padding: 3rem;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px 2px var(--lightTextColor);
+    box-shadow: 0px 0px 10px 2px var(--themeColor);
     position: relative;
 }
 
 
 .page-title {
-    color: var(--themeColor);
+    color: var(--lightTextColor);
     text-transform: uppercase;
     position: relative;
 }
@@ -58,25 +58,37 @@
 .btn-grid {
     display: grid;
     grid-template-columns: repeat(2, auto);
-    gap: 2rem;
+    gap: 3rem;
     position: relative;
 }
 
-.btn {
+.btn,
+.btn0,
+.btn1,
+.btn2,
+.btn3 {
     padding: 1rem;
     border: 0;
     border-radius: 18px;
     text-align: center;
+    text-transform: uppercase;
     color: var(--lightTextColor);
-    background-color: #008b8b;
+    background-color: blue;
+    border: 1px solid var(--lightTextColor);
 }
 
-.btn:hover {
+.btn:hover,
+.btn0:hover,
+.btn1:hover,
+.tbn2:hover,
+.btn3:hover {
     padding: 1rem;
     border-radius: 18px;
     text-align: center;
+    text-transform: uppercase;
     color: var(--lightTextColor);
-    background-color: #005757;
+    background-color: darkblue;
+    border: 1px solid var(--lightTextColor);
 }
 
 #startBtn {
@@ -84,14 +96,19 @@
     border: 0;
     border-radius: 18px;
     text-align: center;
+    text-transform: uppercase;
     color: var(--lightTextColor);
     background-color: red;
+    border: 1px solid var(--lightTextColor);
+
 }
 
 #startBtn:hover {
     padding: 1rem;
     border-radius: 18px;
     text-align: center;
+    text-transform: uppercase;
     color: var(--lightTextColor);
     background-color: darkred;
+    border: 1px solid var(--lightTextColor);
 }
