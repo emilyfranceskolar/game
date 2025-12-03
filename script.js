@@ -43,28 +43,39 @@ function showInstructions() {}
 
 function startGame() {
   clearContent();
-  renderNewContent();
 }
 
 function clearContent() {
-  const pageTitleHtml = document.querySelector(".page-title");
-  const textHtml = document.querySelector(".page-text");
-  const btnsHtml = document.querySelector(".btn-grid");
+  //radera allt innehåll genom att radera containern
+  const containertHtml = document.querySelector(".container");
+  containertHtml.remove();
 
-  pageTitleHtml.remove();
-  textHtml.remove();
-  btnsHtml.remove();
+  renderNewContent();
 }
 
 function renderNewContent() {
-  const contentHtml = document.querySelector(".content");
-  // const imageHtml = document.createElement("img");
-  // imageHtml.id = "#content-image";
-  // imageHtml.src = content.scene1.image;
-  // contentHtml.append(imageHtml);
+  //skapa en ny div (class = "container")
+  const newContainerHtml = document.createElement("div");
+  newContainerHtml.className = "container";
+
+  //lägg till container till document.body med append()
+  document.body.append(newContainerHtml);
+
+  //skapa en ny bakgrundsbild (class = "bg-image")
+  const newImageHtml = document.createElement("img");
+  newImageHtml.id = "bg-image";
+
+  //anger platsen för src, lägg till i container
+  newImageHtml.src = content.scene1.image;
+  newContainerHtml.append(newImageHtml);
+
+  const contentHtml = document.createElement("div");
+  contentHtml.classList = "content";
+  newContainerHtml.append(contentHtml);
 
   const titleHtml = document.createElement("h2");
   titleHtml.className = "page-title";
+
   titleHtml.innerHTML = content.scene1.title;
   contentHtml.append(titleHtml);
 

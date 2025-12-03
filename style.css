@@ -38,14 +38,13 @@
     position: relative;
 }
 
-#content-image {
-    width: 100%;
-}
 
 .page-title {
     color: var(--themeColor);
     text-transform: uppercase;
+    position: relative;
 }
+
 
 
 .page-text {
