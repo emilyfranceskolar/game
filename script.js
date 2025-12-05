@@ -6,10 +6,11 @@ let content = {
     image: "./images/help.jpg",
     options: [
       {
-        text: "Eh, I'm good",
+        text: "what is a rpg?",
       },
       {
         text: "Ok, let's play",
+        nextScene: "wolf",
       },
     ],
   },
@@ -20,16 +21,18 @@ let content = {
     image: "./images/wolf.jpg",
     options: [
       {
+        text: "run for your life",
+        nextScene: "cabin",
+      },
+      {
+        text: "move slowly away",
+        nextScene: "gameover",
+      },
+      {
         text: "ask the wolf for help",
       },
       {
-        text: "run for your life",
-      },
-      {
-        text: "look for a weapon",
-      },
-      {
-        text: "quit game",
+        text: "look for weapons",
       },
     ],
   },
@@ -42,7 +45,7 @@ let content = {
         text: "run to the cabin",
       },
       {
-        text: "eh I'm good, quit game",
+        text: "eh I'll pass, quit game",
       },
       {
         text: "ignore the cabin",
@@ -68,6 +71,19 @@ let content = {
       },
       {
         text: "quit game",
+      },
+    ],
+  },
+  gameOver: {
+    title: "game terminated!",
+    text: `Better luck next time! Do you want to try again?`,
+    image: "./images/bye.jpg",
+    options: [
+      {
+        text: "play again",
+      },
+      {
+        text: "what is rpg?",
       },
     ],
   },
@@ -125,48 +141,60 @@ function renderNewContent(currentScene) {
   //anger platsen för src, lägg till i container
   newImageHtml.src = currentScene.image;
 
-  newContainerHtml.append(newImageHtml);
+  // skapa en div
+  const exitBtnContainer = document.createElement("div");
+  exitBtnContainer.className = "exitBtnContainer";
+
+  // knapp för att avsluta spelet
+  const exitBtnHtml = document.createElement("button");
+  exitBtnHtml.id = "exitBtn";
+  exitBtnHtml.innerText = "exit game";
+
+  // lägg till avslut-knappen i sin div
+  exitBtnContainer.append(exitBtnHtml);
+
+  // lägg till nya bakgrundsbilden i en container
+  newContainerHtml.append(newImageHtml, exitBtnContainer);
 
   const contentHtml = document.createElement("div");
   contentHtml.classList = "content";
   newContainerHtml.append(contentHtml);
 
+  //skapa en ny titel
   const titleHtml = document.createElement("h2");
   titleHtml.className = "page-title";
 
+  // lägg till respektiv title från objektet content
   titleHtml.innerHTML = currentScene.title;
-  contentHtml.append(titleHtml);
 
+  //skapa en ny paragraf
   const paragraphHtml = document.createElement("p");
   paragraphHtml.className = "page-text";
-  paragraphHtml.innerHTML = currentScene.text;
-  contentHtml.append(paragraphHtml);
 
+  // lägg till respektiv text från objektet {content}
+  paragraphHtml.innerHTML = currentScene.text;
+
+  // skapa en grid div/container för alla knappar
   const btnGridHtml = document.createElement("div");
   btnGridHtml.className = "btn-grid";
 
-  let btnHtml;
+  //skapa alla knappar med info från  objektet {content}
   for (let i = 0; i < currentScene.options.length; i++) {
     btnHtml = document.createElement("button");
     btnHtml.className = "btn" + i;
     btnHtml.innerHTML = currentScene.options[i].text;
+    console.log(btnHtml);
+    btnHtml.onclick = () => loadNextScene(content.options[i].nextScene);
     btnGridHtml.append(btnHtml);
   }
-  contentHtml.append(btnGridHtml);
-  console.log(Object.keys(content));
 
-  getSelection();
+  // lägg till alla nya element i content-div:en
+  contentHtml.append(titleHtml, paragraphHtml, btnGridHtml);
+  // console.log(Object.keys(content));
 }
 
-function getSelection() {
-  //en nodelist skapas när alla knappar hämtas
-  const listOfButtons = document.querySelectorAll("button");
-  // console.log(listOfButtons);
-
-  //for varje knapp vill vi se vad den innehåller
-  for (const button of listOfButtons) {
-    console.log(button);
-  }
+function loadNextScene() {
+  currentScene = content.options.nextScene;
 }
 
-function gameOver() {}
+// function gameOver() {}
