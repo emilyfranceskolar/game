@@ -1,5 +1,21 @@
 //objekt för att skapa och lagra spelets innehåll
 let content = {
+  start: {
+    title: "Welcome to the Dark Forrest!",
+    text: `In this game you need to find your way to the Majestic Mountain.
+          Look for tools to use and watch out for enemies along the way!`,
+    image: "./images/start.jpg",
+    options: [
+      {
+        text: "how to play",
+        nextScene: "help",
+      },
+      {
+        text: "start game",
+        nextScene: "wolf",
+      },
+    ],
+  },
   help: {
     title: "how to play",
     text: `To play this game it's simple, click on 1 of the buttons to make a decision based on the text. <br /> `,
@@ -7,9 +23,10 @@ let content = {
     options: [
       {
         text: "what is a rpg?",
+        nextScene: "cabin",
       },
       {
-        text: "Ok, let's play",
+        text: "ok, let's play",
         nextScene: "wolf",
       },
     ],
@@ -25,14 +42,23 @@ let content = {
         nextScene: "cabin",
       },
       {
-        text: "move slowly away",
-        nextScene: "gameover",
-      },
-      {
-        text: "ask the wolf for help",
+        text: "back slowly away",
+        nextScene: "wolfeat",
       },
       {
         text: "look for weapons",
+        nextScene: "wolfeat",
+      },
+    ],
+  },
+  wolfeat: {
+    title: "Game over!",
+    text: `You didn't stand a chance against this hungry and giant wolf`,
+    image: "./images/wolf2.jpg",
+    options: [
+      {
+        text: "Try again?",
+        nextScene: "start",
       },
     ],
   },
@@ -43,15 +69,15 @@ let content = {
     options: [
       {
         text: "run to the cabin",
+        nextScene: "game",
       },
       {
-        text: "eh I'll pass, quit game",
-      },
-      {
-        text: "ignore the cabin",
+        text: "ignore the cabin, keep running",
+        nextScene: "tent",
       },
       {
         text: "scream for help",
+        nextScene: "game",
       },
     ],
   },
@@ -61,29 +87,23 @@ let content = {
     image: "./images/camper.jpg",
     options: [
       {
-        text: "stop and listen for sounds",
-      },
-      {
         text: "call for help",
+        nextScene: "terminate",
       },
       {
         text: "look for a weapon",
-      },
-      {
-        text: "quit game",
+        nextScene: "terminate",
       },
     ],
   },
-  gameOver: {
+  terminate: {
     title: "game terminated!",
     text: `Better luck next time! Do you want to try again?`,
     image: "./images/bye.jpg",
     options: [
       {
         text: "play again",
-      },
-      {
-        text: "what is rpg?",
+        nextScene: "start",
       },
     ],
   },
@@ -96,105 +116,95 @@ window.addEventListener("DOMContentLoaded", main);
 let backpack = [];
 
 // variabel för att lagra var spelare befinner sig i spelet
-let currentScene = null;
+let scene = null;
 
 function main() {
-  //variabler för de 2 knapparna på sidan från allra första början
-  const btnHtml = document.querySelector(".btn");
-  const startBtnHtml = document.getElementById("startBtn");
-  //anropar em callback till funktionenn showInstructions när man klickar på rulesBtnHtml
-  btnHtml.addEventListener("click", showInstructions);
-  //anropar en callback till funktionen startGame när man klickar på startBtnHtml
-  startBtnHtml.addEventListener("click", startGame);
-}
-
-function showInstructions() {
-  currentScene = content.help;
-  clearContent();
-  renderNewContent(currentScene);
-}
-
-function startGame() {
-  currentScene = content.wolf;
-  clearContent();
-  renderNewContent(currentScene);
+  scene = content.start;
+  renderNewContent();
 }
 
 function clearContent() {
   //radera allt innehåll genom att radera containern
-  const containertHtml = document.querySelector(".container");
-  containertHtml.remove();
+  const container = document.querySelector(".container");
+  container.remove();
 }
 
-function renderNewContent(currentScene) {
+function renderNewContent() {
+
   //skapa en ny div (class = "container")
-  const newContainerHtml = document.createElement("div");
-  newContainerHtml.className = "container";
+  const newContainer = document.createElement("div");
+  newContainer.className = "container";
 
   //lägg till container till document.body med append()
-  document.body.append(newContainerHtml);
+  document.body.append(newContainer);
 
   //skapa en ny bakgrundsbild (class = "bg-image")
-  const newImageHtml = document.createElement("img");
-  newImageHtml.id = "bg-image";
+  const newImage = document.createElement("img");
+  newImage.id = "bg-image";
 
   //anger platsen för src, lägg till i container
-  newImageHtml.src = currentScene.image;
+  newImage.src = scene.image;
 
-  // skapa en div
+  // skapa en div för nedanför knapp
   const exitBtnContainer = document.createElement("div");
   exitBtnContainer.className = "exitBtnContainer";
 
   // knapp för att avsluta spelet
-  const exitBtnHtml = document.createElement("button");
-  exitBtnHtml.id = "exitBtn";
-  exitBtnHtml.innerText = "exit game";
+  const exitBtn = document.createElement("button");
+  exitBtn.id = "exitBtn";
+  exitBtn.innerText = "exit game";
 
   // lägg till avslut-knappen i sin div
-  exitBtnContainer.append(exitBtnHtml);
+  exitBtnContainer.append(exitBtn);
+  exitBtn.onclick = () => gameOver();
 
   // lägg till nya bakgrundsbilden i en container
-  newContainerHtml.append(newImageHtml, exitBtnContainer);
+  newContainer.append(newImage, exitBtnContainer);
 
-  const contentHtml = document.createElement("div");
-  contentHtml.classList = "content";
-  newContainerHtml.append(contentHtml);
+  const content = document.createElement("div");
+  content.classList = "content";
+  newContainer.append(content);
 
   //skapa en ny titel
-  const titleHtml = document.createElement("h2");
-  titleHtml.className = "page-title";
+  const title = document.createElement("h2");
+  title.className = "page-title";
 
   // lägg till respektiv title från objektet content
-  titleHtml.innerHTML = currentScene.title;
+  title.innerHTML = scene.title;
 
   //skapa en ny paragraf
-  const paragraphHtml = document.createElement("p");
-  paragraphHtml.className = "page-text";
+  const paragraph = document.createElement("p");
+  paragraph.className = "page-text";
 
   // lägg till respektiv text från objektet {content}
-  paragraphHtml.innerHTML = currentScene.text;
+  paragraph.innerHTML = scene.text;
 
   // skapa en grid div/container för alla knappar
-  const btnGridHtml = document.createElement("div");
-  btnGridHtml.className = "btn-grid";
+  const btnGrid = document.createElement("div");
+  btnGrid.className = "btn-grid";
 
-  //skapa alla knappar med info från  objektet {content}
-  for (let i = 0; i < currentScene.options.length; i++) {
-    btnHtml = document.createElement("button");
-    btnHtml.className = "btn" + i;
-    btnHtml.innerHTML = currentScene.options[i].text;
-    console.log(btnHtml);
-    btnHtml.onclick = () => loadNextScene(content.options[i].nextScene);
-    btnGridHtml.append(btnHtml);
+  //skapa knappar med info från objektet {content} för varje gång i < c
+  for (let i = 0; i < scene.options.length; i++) {
+    btn = document.createElement("button");
+    btn.className = "btn" + i;
+    btn.innerHTML = scene.options[i].text;
+    btnGrid.append(btn);
+    btn.onclick = () => loadNextScene(scene.options[i].nextScene);
   }
 
   // lägg till alla nya element i content-div:en
-  contentHtml.append(titleHtml, paragraphHtml, btnGridHtml);
-  // console.log(Object.keys(content));
+  content.append(title, paragraph, btnGrid);
 }
 
-function loadNextScene() {
-  currentScene = content.options.nextScene;
+function loadNextScene(scene) {
+  console.log(scene);
+  
+  clearContent();
+  renderNewContent();
 }
 
-// function gameOver() {}
+function gameOver() {
+  scene = content.terminate;
+  clearContent();
+  renderNewContent(scene);
+}
