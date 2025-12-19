@@ -2,8 +2,7 @@
 let content = {
   start: {
     title: "Welcome to the Dark Forrest!",
-    text: `In this game you need to find your way to the Majestic Mountain.
-          Look for tools to use and watch out for enemies along the way!`,
+    text: `In this game you need to find your way out of <br>the forrest. Watch out for enemies along the way!`,
     image: "./images/start.jpg",
     options: [
       {
@@ -23,7 +22,7 @@ let content = {
     options: [
       {
         text: "what is a rpg?",
-        nextScene: "cabin",
+        nextScene: "rpg",
       },
       {
         text: "ok, let's play",
@@ -42,23 +41,12 @@ let content = {
         nextScene: "cabin",
       },
       {
-        text: "back slowly away",
+        text: "slowly back away",
         nextScene: "wolfeat",
       },
       {
-        text: "look for weapons",
-        nextScene: "wolfeat",
-      },
-    ],
-  },
-  wolfeat: {
-    title: "Game over!",
-    text: `You didn't stand a chance against this hungry and giant wolf`,
-    image: "./images/wolf2.jpg",
-    options: [
-      {
-        text: "Try again?",
-        nextScene: "start",
+        text: "look for a weapon",
+        nextScene: "terminate",
       },
     ],
   },
@@ -68,16 +56,12 @@ let content = {
     image: "./images/cabin.jpg",
     options: [
       {
-        text: "run to the cabin",
-        nextScene: "game",
-      },
-      {
-        text: "ignore the cabin, keep running",
-        nextScene: "tent",
-      },
-      {
         text: "scream for help",
         nextScene: "game",
+      },
+      {
+        text: "keep running",
+        nextScene: "tent",
       },
     ],
   },
@@ -97,8 +81,8 @@ let content = {
     ],
   },
   terminate: {
-    title: "game terminated!",
-    text: `Better luck next time! Do you want to try again?`,
+    title: "game terminated",
+    text: `Better luck next time!`,
     image: "./images/bye.jpg",
     options: [
       {
@@ -109,11 +93,7 @@ let content = {
   },
 };
 
-//anropar en callback till main när sidan har laddats
 window.addEventListener("DOMContentLoaded", main);
-
-// spelaren ska kunna plocka upp (lagre) och använda (ta bort) objekt under spelet
-let backpack = [];
 
 // variabel för att lagra var spelare befinner sig i spelet
 let scene = null;
@@ -124,83 +104,103 @@ function main() {
 }
 
 function clearContent() {
-  //radera allt innehåll genom att radera containern
   const container = document.querySelector(".container");
   container.remove();
 }
 
 function renderNewContent() {
-
-  //skapa en ny div (class = "container")
   const newContainer = document.createElement("div");
   newContainer.className = "container";
-
-  //lägg till container till document.body med append()
   document.body.append(newContainer);
 
-  //skapa en ny bakgrundsbild (class = "bg-image")
   const newImage = document.createElement("img");
   newImage.id = "bg-image";
 
-  //anger platsen för src, lägg till i container
-  newImage.src = scene.image;
+  if (scene === content.wolfeat) {
+    newImage.src = "./images/wolf2.jpg";
+  } else {
+    newImage.src = scene.image;
+  }
+  newContainer.append(newImage);
 
-  // skapa en div för nedanför knapp
-  const exitBtnContainer = document.createElement("div");
-  exitBtnContainer.className = "exitBtnContainer";
+  if (
+    scene !== content.start &&
+    scene !== content.terminate &&
+    scene !== content.help &&
+    scene !== content.wolfeat
+  ) {
+    const exitBtnContainer = document.createElement("div");
+    exitBtnContainer.className = "exitBtnContainer";
+    const exitBtn = document.createElement("button");
+    exitBtn.id = "exitBtn";
+    exitBtn.innerText = "exit game";
+    exitBtnContainer.append(exitBtn);
+    newContainer.append(exitBtnContainer);
+    exitBtn.onclick = () => gameOver();
+  }
 
-  // knapp för att avsluta spelet
-  const exitBtn = document.createElement("button");
-  exitBtn.id = "exitBtn";
-  exitBtn.innerText = "exit game";
+  const mainContent = document.createElement("div");
+  mainContent.classList = "content";
+  newContainer.append(mainContent);
 
-  // lägg till avslut-knappen i sin div
-  exitBtnContainer.append(exitBtn);
-  exitBtn.onclick = () => gameOver();
-
-  // lägg till nya bakgrundsbilden i en container
-  newContainer.append(newImage, exitBtnContainer);
-
-  const content = document.createElement("div");
-  content.classList = "content";
-  newContainer.append(content);
-
-  //skapa en ny titel
   const title = document.createElement("h2");
   title.className = "page-title";
+  if (scene === content.wolfeat) {
+    title.innerHTML = "You've been eaten";
+  } else {
+    title.innerHTML = scene.title;
+  }
 
-  // lägg till respektiv title från objektet content
-  title.innerHTML = scene.title;
-
-  //skapa en ny paragraf
   const paragraph = document.createElement("p");
   paragraph.className = "page-text";
 
-  // lägg till respektiv text från objektet {content}
-  paragraph.innerHTML = scene.text;
+  if (scene === content.wolfeat) {
+    paragraph.innerHTML = "You didn't stand a chance against the hungry wolf..";
+  } else {
+    paragraph.innerHTML = scene.text;
+  }
 
-  // skapa en grid div/container för alla knappar
   const btnGrid = document.createElement("div");
   btnGrid.className = "btn-grid";
 
-  //skapa knappar med info från objektet {content} för varje gång i < c
-  for (let i = 0; i < scene.options.length; i++) {
-    btn = document.createElement("button");
-    btn.className = "btn" + i;
-    btn.innerHTML = scene.options[i].text;
-    btnGrid.append(btn);
-    btn.onclick = () => loadNextScene(scene.options[i].nextScene);
-  }
+  if (scene === content.wolfeat) {
+    wolfButtons = ["Try again?", "No, I'm good"];
+    wolfScenes = ["wolf", "start"];
 
-  // lägg till alla nya element i content-div:en
-  content.append(title, paragraph, btnGrid);
+    for (let i = 0; i < wolfButtons.length; i++) {
+      btn = document.createElement("button");
+      btn.className = "btn" + i;
+      btn.innerHTML = wolfButtons[i];
+      btnGrid.append(btn);
+      btn.onclick = () => loadNextScene(wolfScenes[i]);
+    }
+  } else {
+    //skapa knappar med info från objektet {content}
+    for (let i = 0; i < scene.options.length; i++) {
+      btn = document.createElement("button");
+      btn.className = "btn" + i;
+      btn.innerHTML = scene.options[i].text;
+      btnGrid.append(btn);
+      btn.onclick = () => loadNextScene(scene.options[i].nextScene);
+      {
+        if (scene.options[i].nextScene === "rpg") {
+          console.log("hello");
+          btn.onclick = () => loadRpgScene();
+        }
+      }
+    }
+  }
+  mainContent.append(title, paragraph, btnGrid);
 }
 
-function loadNextScene(scene) {
-  console.log(scene);
-  
+function loadNextScene(nextScene) {
+  scene = content[nextScene];
   clearContent();
   renderNewContent();
+}
+
+function loadRpgScene() {
+  window.open("https://en.wikipedia.org/wiki/Role-playing_game", "_blank");
 }
 
 function gameOver() {
