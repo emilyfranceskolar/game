@@ -93,7 +93,7 @@ let content = {
   sandwich: {
     image: "./images/sandwich.jpg",
     title: "Game over",
-    text: "Didn't work.. The giant eats you like a juicy sandwich.",
+    text: "The giant ate you like a juicy sandwich...",
     options: [
       {
         text: "play again",
@@ -131,62 +131,6 @@ let content = {
       },
     ],
   },
-  inside: {
-    image: "./images/inside.jpg",
-    title: "Inside the cabin",
-    text: "You enter and find an axe. What do you do?",
-    options: [
-      {
-        text: "ignore, leave cabin",
-        nextScene: "cabin",
-      },
-      {
-        text: "pick up the axe",
-        nextScene: "axe",
-      },
-    ],
-  },
-  axe: {
-    image: "./images/axe.jpg",
-    title: "Weapon added",
-    text: "You leave the cabin with the weapon in your hand. What do you do?",
-    options: [
-      {
-        text: "go left",
-        nextScene: "witch",
-      },
-      {
-        text: "go right",
-        nextScene: "wolf2",
-      },
-    ],
-  },
-  witch: {
-    image: "./images/witch.jpg",
-    title: "Black magic?",
-    text: "You meet a woman dressed all black, doing witchcraft. What do you do?",
-    options: [
-      {
-        text: "approach her",
-        nextScene: "rip",
-      },
-      {
-        text: "run for it",
-        nextScene: "rip",
-      },
-    ],
-  },
-  rip: {
-    image: "./images/blood.jpg",
-    title: "Game over",
-    text: "Wrong move! You got killed and your blood is everywhwere....",
-    options: [
-      {
-        text: "play again",
-        nextScene: "intro",
-      },
-    ],
-  },
   stranger: {
     image: "./images/stranger.jpg",
     title: "A stranger",
@@ -214,6 +158,51 @@ let content = {
       {
         text: "uhm, go back to the cabin",
         nextScene: "wolf",
+      },
+    ],
+  },
+  inside: {
+    image: "./images/inside.jpg",
+    title: "Inside the cabin",
+    text: "You enter and find an axe. What do you do?",
+    options: [
+      {
+        text: "ignore, leave cabin",
+        nextScene: "cabin",
+      },
+      {
+        text: "pick up the axe",
+        nextScene: "axe",
+      },
+    ],
+  },
+  axe: {
+    image: "./images/axe.jpg",
+    title: "Weapon added",
+    text: "You leave the cabin with the weapon in your hand. What do you do?",
+    options: [
+      {
+        text: "go left",
+        nextScene: "witch",
+      },
+      {
+        text: "go right",
+        nextScene: "wolfpack",
+      },
+    ],
+  },
+  witch: {
+    image: "./images/witch.jpg",
+    title: "Black magic?",
+    text: "You meet a woman dressed all black, doing witchcraft. What do you do?",
+    options: [
+      {
+        text: "approach her",
+        nextScene: "rip",
+      },
+      {
+        text: "run from her",
+        nextScene: "rip",
       },
     ],
   },
@@ -269,8 +258,8 @@ function renderNewContent() {
   const newImage = document.createElement("img");
   newImage.id = "bg-image";
 
-  if (scene === content.eaten) {
-    newImage.src = "./images/wolf3.jpg";
+  if (scene === content.rip) {
+    newImage.src = "./images/blood.jpg";
   } else {
     newImage.src = scene.image;
   }
@@ -281,7 +270,6 @@ function renderNewContent() {
     scene !== content.help &&
     scene !== content.exit &&
     scene !== content.sandwich &&
-    scene !== content.eaten &&
     scene !== content.rip
   ) {
     const exitBtnContainer = document.createElement("div");
@@ -307,7 +295,7 @@ function renderNewContent() {
   const title = document.createElement("h2");
   title.className = "page-title";
 
-  if (scene === content.eaten) {
+  if (scene === content.rip) {
     title.innerHTML = "Game over";
   } else {
     title.innerHTML = scene.title;
@@ -315,8 +303,8 @@ function renderNewContent() {
 
   const paragraph = document.createElement("p");
   paragraph.className = "page-text";
-  if (scene === content.eaten) {
-    paragraph.innerHTML = "You didn't stand a chance against the wolf pack..";
+  if (scene === content.rip) {
+    paragraph.innerHTML = "Wrong move! ";
   } else {
     paragraph.innerHTML = scene.text;
   }
@@ -324,7 +312,7 @@ function renderNewContent() {
   const btnGrid = document.createElement("div");
   btnGrid.className = "btn-grid";
 
-  if (scene === content.eaten) {
+  if (scene === content.rip) {
     btn = document.createElement("button");
     btn.className = "btn";
     btn.innerHTML = "play agin?";
