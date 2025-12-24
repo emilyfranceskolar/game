@@ -1,9 +1,9 @@
 //objekt för att skapa och lagra spelets innehåll
 let content = {
   intro: {
-    title: "Welcome to the Dark Forrest!",
-    text: "You're alone and with nothing. You need to find a way out of the forrest.",
     image: "./images/start.jpg",
+    title: "Welcome to the Dark Forrest!",
+    text: "You're alone in a strange forrest. Try to find<br>  someone  to help you get out of the forrest.",
     options: [
       {
         text: "how to play",
@@ -16,9 +16,9 @@ let content = {
     ],
   },
   help: {
+    image: "./images/help.jpg",
     title: "How to play",
     text: "In this RPG you will interact with fictional characters,<br>scenes. Take action by clicking on 1 of the buttons.",
-    image: "./images/help.jpg",
     options: [
       {
         text: "what is rpg?",
@@ -31,9 +31,9 @@ let content = {
     ],
   },
   start: {
-    title: "Starting point",
-    text: "Not much here, what do you do?",
     image: "./images/clearing.jpg",
+    title: "Starting point",
+    text: "You don't see or hear anything, what do you do?",
     options: [
       {
         text: "go left",
@@ -46,9 +46,9 @@ let content = {
     ],
   },
   trail: {
+    image: "./images/path.jpg",
     title: "Wondering around",
     text: "Looks like there's a trail, what do you do?",
-    image: "./images/path.jpg",
     options: [
       {
         text: "follow trail",
@@ -56,44 +56,44 @@ let content = {
       },
       {
         text: "ignore trail",
-        nextScene: "creek",
+        nextScene: "wolf",
       },
     ],
   },
   creek: {
-    title: "Water",
-    text: "You've found a small creek. What do you do?",
     image: "./images/creek.jpg",
+    title: "Water",
+    text: "You see a small creek. What do you do?",
     options: [
       {
-        text: "cross water",
+        text: "go left",
         nextScene: "troll",
       },
       {
-        text: "ignore, go right",
-        nextScene: "cabin",
+        text: "go right",
+        nextScene: "wolf",
       },
     ],
   },
   troll: {
-    title: "WTF!?",
-    text: "You meet a giant troll. What do you do?",
     image: "./images/troll.jpg",
+    title: "WTF!?",
+    text: "A giant, angry troll appears. What do you do?",
     options: [
       {
-        text: "run away",
-        nextScene: "kill",
+        text: "run left",
+        nextScene: "sandwich",
       },
       {
-        text: "talk to troll",
-        nextScene: "troll2",
+        text: "run right",
+        nextScene: "trail",
       },
     ],
   },
-  kill: {
+  sandwich: {
+    image: "./images/sandwich.jpg",
     title: "Game over",
-    text: "You've been killed",
-    image: "./images/kill.jpg",
+    text: "Didn't work.. The giant eats you like a juicy sandwich.",
     options: [
       {
         text: "play again",
@@ -101,97 +101,150 @@ let content = {
       },
     ],
   },
-  troll2: {
-    title: "Lost axe",
-    text: "The troll tells you he's lost his axe and <br> wants help finding it. What do you do?",
-    image: "./images/troll.jpg",
-    options: [
-      {
-        text: "agree to help",
-        nextScene: "cabin",
-      },
-      {
-        text: "run for your life",
-        nextScene: "kill",
-      },
-    ],
-  },
   wolf: {
+    image: "./images/wolf.jpg",
     title: "Uh oh...",
     text: "You meet a wolf, what do you do?",
-    image: "./images/wolf.jpg",
     options: [
       {
         text: "back up slowly",
-        nextScene: "kill",
+        nextScene: "rip",
       },
       {
         text: "run for your life",
-        nextScene: "troll",
+        nextScene: "cabin",
       },
     ],
   },
   cabin: {
+    image: "./images/cabin.jpg",
     title: "The Cabin",
     text: "You see a cabin, the door is open. What do you do?",
-    image: "./images/cabin.jpg",
     options: [
       {
-        text: "go left",
-        nextScene: "wolf",
+        text: "ignore the cabin",
+        nextScene: "stranger",
       },
       {
-        text: "go to cabin",
+        text: "go inside cabin",
         nextScene: "inside",
       },
     ],
   },
   inside: {
+    image: "./images/inside.jpg",
     title: "Inside the cabin",
     text: "You enter and find an axe. What do you do?",
-    image: "./images/inside.jpg",
     options: [
       {
         text: "ignore, leave cabin",
-        nextScene: "wolf",
+        nextScene: "cabin",
       },
       {
-        text: "take the axe",
+        text: "pick up the axe",
         nextScene: "axe",
       },
     ],
   },
   axe: {
-    title: "Weapon added",
-    text: "You leave the cabin with the weapon. What do you do?",
     image: "./images/axe.jpg",
+    title: "Weapon added",
+    text: "You leave the cabin with the weapon in your hand. What do you do?",
     options: [
       {
-        text: "go outside",
-        nextScene: "cabin",
+        text: "go left",
+        nextScene: "witch",
       },
       {
-        text: "",
-        nextScene: "attack",
+        text: "go right",
+        nextScene: "wolf2",
       },
     ],
   },
-  campsite: {
-    title: "The Campsite",
-    text: "You see a campsite in the distance. You're not <br>sure if it's empty or not. What do you do?",
-    image: "./images/campsite.jpg",
+  witch: {
+    image: "./images/witch.jpg",
+    title: "Black magic?",
+    text: "You meet a woman dressed all black, doing witchcraft. What do you do?",
     options: [
       {
-        text: "scream for help",
+        text: "approach her",
+        nextScene: "rip",
+      },
+      {
+        text: "run for it",
+        nextScene: "rip",
+      },
+    ],
+  },
+  rip: {
+    image: "./images/blood.jpg",
+    title: "Game over",
+    text: "Wrong move! You got killed and your blood is everywhwere....",
+    options: [
+      {
+        text: "play again",
+        nextScene: "intro",
+      },
+    ],
+  },
+  stranger: {
+    image: "./images/stranger.jpg",
+    title: "A stranger",
+    text: "You meet someone with a torch. What do you do?",
+    options: [
+      {
+        text: "talk to person",
+        nextScene: "stranger2",
+      },
+      {
+        text: "ignore person",
+        nextScene: "wolf",
+      },
+    ],
+  },
+  stranger2: {
+    image: "./images/stranger.jpg",
+    title: "A stranger",
+    text: "The person offers to help you. What do you do?",
+    options: [
+      {
+        text: "trust and follow this person",
+        nextScene: "exit",
+      },
+      {
+        text: "uhm, go back to the cabin",
+        nextScene: "wolf",
+      },
+    ],
+  },
+  wolfpack: {
+    image: "./images/wolfpack.jpg",
+    title: "Wolves, as in wolkpack",
+    text: "You meet a pack of wolves, what do you do?",
+    options: [
+      {
+        text: "run for your life",
         nextScene: "eaten",
       },
       {
-        text: "ignore, keep running",
-        nextScene: "cabin",
+        text: "fight the wolves",
+        nextScene: "eaten",
+      },
+    ],
+  },
+  exit: {
+    image: "./images/exit.jpg",
+    title: "You found a way out",
+    text: "Well done! The person knew exactly how to leave and will drive you home.",
+    options: [
+      {
+        text: "play again?",
+        nextScene: "start",
       },
     ],
   },
 };
+
 window.addEventListener("DOMContentLoaded", main);
 
 // variabel för att lagra var spelare befinner sig i spelet
@@ -217,7 +270,7 @@ function renderNewContent() {
   newImage.id = "bg-image";
 
   if (scene === content.eaten) {
-    newImage.src = "./images/wolf2.jpg";
+    newImage.src = "./images/wolf3.jpg";
   } else {
     newImage.src = scene.image;
   }
@@ -225,9 +278,11 @@ function renderNewContent() {
 
   if (
     scene !== content.intro &&
-    scene !== content.kill &&
     scene !== content.help &&
-    scene !== content.eaten
+    scene !== content.exit &&
+    scene !== content.sandwich &&
+    scene !== content.eaten &&
+    scene !== content.rip
   ) {
     const exitBtnContainer = document.createElement("div");
     exitBtnContainer.className = "exitBtnContainer";
@@ -261,7 +316,7 @@ function renderNewContent() {
   const paragraph = document.createElement("p");
   paragraph.className = "page-text";
   if (scene === content.eaten) {
-    paragraph.innerHTML = "You've been eaten by the wolf";
+    paragraph.innerHTML = "You didn't stand a chance against the wolf pack..";
   } else {
     paragraph.innerHTML = scene.text;
   }
@@ -286,8 +341,6 @@ function renderNewContent() {
 
       if (scene.options[i].nextScene === "rpg") {
         btn.onclick = () => loadRpgScene();
-      } else if (scene.options[i].nextScene === "reset") {
-        btn.onclick = () => resetGame();
       }
     }
   }
